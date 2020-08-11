@@ -17,14 +17,14 @@ char       *get_status(t_state etat)
     return (NULL);
 }
 
-void       print_state(t_philo philo, t_state etat)
+void       print_state(t_philo *philo, t_state etat)
 {
     char *str;
     char *tmp;
     char *time;
     char *phi;
 
-    time = ft_itoa(get_time() - philo.start);
+    time = ft_itoa(get_time() - philo->start);
     phi = " philo ";
     tmp = ft_strjoin(time, phi);
     str = ft_strjoin(tmp, get_status(etat));

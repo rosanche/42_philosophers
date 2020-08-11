@@ -39,7 +39,7 @@ typedef struct s_global {
 }               t_global;
 
 
-void       print_state(t_philo philo, t_state etat);
+void       print_state(t_philo *philo, t_state etat);
 
 // Libft
 unsigned long		get_time(void);
