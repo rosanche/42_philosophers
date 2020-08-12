@@ -50,7 +50,6 @@ t_sem       *init_sem(int nb_philos)
         return (NULL);
     if (!(sem->forks = (sem_t *)malloc(sizeof(sem_t))))
         return (NULL);
-    // while (++i < nb_philos)
     if (!(sem->forks = sem_open("sema", O_CREAT, 0666, global->nb_philo)))
         return (NULL);
     return (sem);

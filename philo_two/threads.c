@@ -20,15 +20,15 @@ int     try_fork(t_philo *philo)
 	t_global *gl;
 
 	gl = get_gl();
-	pthread_semex_lock(&gl->sem->forks[philo->index]);
+	sem_wait(gl->sem->forks);
 	print_state(philo, TAKE_FORK);
-	pthread_semex_lock(&gl->sem->forks[(philo->index + 1) % gl->times->nb_ph]);
+	sem_wait(gl->sem->forks);
 	print_state(philo, TAKE_FORK);
 	philo->last_eat = get_time();
 	print_state(philo, EATING);
 	ft_sleeping(gl->times->t_to_eat);
-	pthread_semex_unlock(&gl->sem->forks[philo->index]);
-	pthread_semex_unlock(&gl->sem->forks[(philo->index + 1) % gl->times->nb_ph]);
+	sem_post(gl->sem->forks);
+	sem_post(gl->sem->forks);
 	return (1);
 }
 
