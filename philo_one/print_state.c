@@ -8,8 +8,8 @@ char       *get_status(t_state etat)
         return (" is thinking\n");
     else if (etat == EATING)
         return (" is eating\n");
-    // else if (etat === HUNGRY)
-    //     return (" is thinking");
+    else if (etat == TAKE_FORK)
+        return (" has taken a fork");
     else if (etat == SLEEPING)
         return (" is sleeping\n");
     else if (etat == DIED)
@@ -23,11 +23,18 @@ void       print_state(t_philo *philo, t_state etat)
     char *tmp;
     char *time;
     char *phi;
+    char *index;
 
     time = ft_itoa(get_time() - philo->start);
     phi = " philo ";
     tmp = ft_strjoin(time, phi);
-    str = ft_strjoin(tmp, get_status(etat));
+    index = ft_itoa(philo->index + 1);
+    str = ft_strjoin(tmp, index);
+    free(time);
+    free(index);
     free(tmp);
-    write(1, str, ft_strlen(str));
+    tmp = ft_strjoin(str, get_status(etat));
+    free(str);
+    write(1, tmp, ft_strlen(tmp));
+    free(tmp);
 }

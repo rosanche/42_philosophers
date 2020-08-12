@@ -16,7 +16,7 @@ typedef struct s_to {
     unsigned long t_to_die;
     unsigned long t_to_sleep;
     int nb_ph;
-    unsigned long nb_eat;
+    int nb_eat;
 }               t_to;
 
 typedef struct s_mut {
@@ -28,18 +28,27 @@ typedef struct s_philo {
     unsigned long start;
     int nb_eat;
     unsigned long last_eat;
-    pthread_t *live;
-    pthread_t *check
+    pthread_t   live;
+    pthread_t   check;
 }               t_philo;
 
 typedef struct s_global {
     t_to *times;
     t_philo *philos;
     t_mut   *mut;
+    int     nb_philo;
+    int     alive;
 }               t_global;
 
 
 void       print_state(t_philo *philo, t_state etat);
+void	*check(void *philo);
+void    *live(void *philo);
+int     try_fork(t_philo *philo);
+t_global		*get_gl(void);
+t_global    *init_global(char **av);
+void    free_gl(t_global *gl);
+
 
 // Libft
 unsigned long		get_time(void);

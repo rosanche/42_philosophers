@@ -6,12 +6,12 @@ static void				ft_sleeping(int n)
 	unsigned long passed;
 
 	start = get_time();
-	while (1)
+	while (42)
 	{
 		passed = get_time() - start;
-		if (passed > (unsigned long)n)
+		if (passed >= (unsigned long)n)
 			break ;
-		usleep(1);
+		usleep(200);
 	}
 }
 
@@ -21,20 +21,24 @@ int     try_fork(t_philo *philo)
 
 	gl = get_gl();
 	pthread_mutex_lock(&gl->mut->forks[philo->index]);
+	print_state(philo, TAKE_FORK);
 	pthread_mutex_lock(&gl->mut->forks[(philo->index + 1) % gl->times->nb_ph]);
-	print_state(philo, EATING);
+	print_state(philo, TAKE_FORK);
 	philo->last_eat = get_time();
+	print_state(philo, EATING);
 	ft_sleeping(gl->times->t_to_eat);
 	pthread_mutex_unlock(&gl->mut->forks[philo->index]);
 	pthread_mutex_unlock(&gl->mut->forks[(philo->index + 1) % gl->times->nb_ph]);
 	return (1);
 }
 
-void    live(t_philo *philo)
+void    *live(void *args)
 {
     t_global *gl;
+	t_philo *philo;
 
     gl = get_gl();
+	philo = (t_philo*)args;
     while (42)
     {
         print_state(philo, THINKING);
@@ -44,5 +48,27 @@ void    live(t_philo *philo)
 		print_state(philo, SLEEPING);
 		ft_sleeping(gl->times->t_to_sleep);
     }
+	gl->nb_philo--;
+	return (NULL);
+}
+
+void	*check(void *args)
+{
+	t_global *gl;
+	t_philo *philo;
+
+	gl = get_gl();
+	philo = (t_philo*)args;
+	while (42)
+	{
+		if (get_time() - philo->last_eat > gl->times->t_to_die && gl->alive)
+		{
+			gl->alive= 0;
+			print_state(philo, DIED);
+			free_gl(gl);
+			break ;
+		}
+		ft_sleeping(5);
+	}
 	return (NULL);
 }

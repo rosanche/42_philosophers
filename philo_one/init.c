@@ -3,9 +3,13 @@
 t_philo *init_philos(int nb_philos)
 {
     t_philo *philos;
+    t_global *gl;
     int i;
 
     i = 0;
+    gl = get_gl();
+    gl->nb_philo = gl->times->nb_ph;
+    gl->alive = 1;
     if (!(philos = (t_philo*)malloc(sizeof(t_philo) * nb_philos)))
         return (NULL);
     while (i < nb_philos)
@@ -29,6 +33,8 @@ t_to    *init_times(char **av)
     times->t_to_die = ft_atoi(av[2]);
     times->t_to_eat = ft_atoi(av[3]);
     times->t_to_sleep = ft_atoi(av[4]);
+    if (av[5])
+        times->nb_eat = ft_atoi(av[5]);
     return (times);
 }
 
@@ -59,11 +65,11 @@ t_global    *init_global(char **av)
 {
     t_global *global;
 
-    // if (!(global = (t_global *)malloc(sizeof(t_global))))
-    //     return (NULL);
     global = get_gl();
     global->times = init_times(av);
     global->philos = init_philos(global->times->nb_ph);
     global->mut = init_mut(global->times->nb_ph);
     return (global);
 }
+
+//proteger stdout avec mutex 
