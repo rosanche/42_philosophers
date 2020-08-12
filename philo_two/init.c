@@ -38,20 +38,22 @@ t_to    *init_times(char **av)
     return (times);
 }
 
-t_mut       *init_mut(int nb_philos)
+t_sem       *init_sem(int nb_philos)
 {
-    t_mut   *mut;
+    t_sem   *sem;
     int i;
+    t_global *global;
 
+    global = get_gl();
     i = -1;
-    if (!(mut = (t_mut *)malloc(sizeof(t_mut))))
+    if (!(sem = (t_sem *)malloc(sizeof(t_sem))))
         return (NULL);
-    if (!(mut->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * nb_philos)))
+    if (!(sem->forks = (sem_t *)malloc(sizeof(sem_t))))
         return (NULL);
-    while (++i < nb_philos)
-        if (!(pthread_mutex_init(&mut->forks[i], NULL)))
-            return (NULL);
-    return (mut);
+    // while (++i < nb_philos)
+    if (!(sem->forks = sem_open("sema", O_CREAT, 0666, global->nb_philo)))
+        return (NULL);
+    return (sem);
 }
 
 t_global		*get_gl(void)
@@ -68,8 +70,8 @@ t_global    *init_global(char **av)
     global = get_gl();
     global->times = init_times(av);
     global->philos = init_philos(global->times->nb_ph);
-    global->mut = init_mut(global->times->nb_ph);
+    global->sem = init_sem(global->times->nb_ph);
     return (global);
 }
 
-//proteger stdout avec mutex 
+//proteger stdout avec semex 
