@@ -21,6 +21,7 @@ typedef struct s_to {
 
 typedef struct s_mut {
     pthread_mutex_t *forks;
+    pthread_mutex_t *die_eat;
 }               t_mut;
 
 typedef struct s_philo {

@@ -1,6 +1,6 @@
 NAME=philo_one
 
-CC=gcc -Wall -Wextra -Werror $(PHILO_ONE_H)
+CC=gcc -Wall -Wextra -Werror $(PHILO_ONE_H) -g3
 
 PHILO_ONE_H = -I philo_one.h
 

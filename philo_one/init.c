@@ -43,13 +43,15 @@ t_mut       *init_mut(int nb_philos)
     t_mut   *mut;
     int i;
 
-    i = -1;
+    i = 0;
     if (!(mut = (t_mut *)malloc(sizeof(t_mut))))
         return (NULL);
-    if (!(mut->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * nb_philos)))
+    if (!(mut->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (nb_philos + 1))))
+        return (NULL);
+    if (!(mut->die_eat = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * nb_philos)))
         return (NULL);
     while (++i < nb_philos)
-        if (!(pthread_mutex_init(&mut->forks[i], NULL)))
+        if (pthread_mutex_init(&mut->forks[i], NULL) || pthread_mutex_init(&mut->die_eat[i], NULL))
             return (NULL);
     return (mut);
 }
@@ -71,5 +73,3 @@ t_global    *init_global(char **av)
     global->mut = init_mut(global->times->nb_ph);
     return (global);
 }
-
-//proteger stdout avec mutex 

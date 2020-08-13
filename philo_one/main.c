@@ -10,6 +10,7 @@ void    free_gl(t_global *gl)
     free(gl->philos);
     free(gl->times);
     free(gl->mut->forks);
+    free(gl->mut->die_eat);
     free(gl->mut);
 }
 

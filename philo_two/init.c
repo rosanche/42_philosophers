@@ -42,16 +42,16 @@ t_sem       *init_sem(int nb_philos)
 {
     t_sem   *sem;
     int i;
-    t_global *global;
 
-    global = get_gl();
     i = -1;
+    sem_unlink("forks");
     if (!(sem = (t_sem *)malloc(sizeof(t_sem))))
         return (NULL);
-    if (!(sem->forks = (sem_t *)malloc(sizeof(sem_t))))
+    // if (!(sem->forks = (sem_t *)malloc(sizeof(sem_t))))
+    //     return (NULL);
+    if (!(sem->forks = sem_open("forks", O_CREAT, 0666, nb_philos)))
         return (NULL);
-    if (!(sem->forks = sem_open("sema", O_CREAT, 0666, global->nb_philo)))
-        return (NULL);
+    printf("ph: %d\n", nb_philos);
     return (sem);
 }
 

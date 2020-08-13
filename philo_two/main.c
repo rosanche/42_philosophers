@@ -2,14 +2,9 @@
 
 void    free_gl(t_global *gl)
 {
-    int i;
-
-    i = -1;
-	while (++i < gl->times->nb_ph)
-		pthread_semex_destroy(&gl->sem->forks[i]);
+    sem_close(gl->sem->forks);
     free(gl->philos);
     free(gl->times);
-    free(gl->sem->forks);
     free(gl->sem);
 }
 

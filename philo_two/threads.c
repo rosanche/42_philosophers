@@ -20,15 +20,19 @@ int     try_fork(t_philo *philo)
 	t_global *gl;
 
 	gl = get_gl();
-	sem_wait(gl->sem->forks);
+	if(sem_wait(gl->sem->forks) == -1)
+		write(1, "Error sem_wait\n", 15);
 	print_state(philo, TAKE_FORK);
-	sem_wait(gl->sem->forks);
+	if(sem_wait(gl->sem->forks) == -1)
+		write(1, "Error sem_wait\n", 15);	
 	print_state(philo, TAKE_FORK);
 	philo->last_eat = get_time();
 	print_state(philo, EATING);
 	ft_sleeping(gl->times->t_to_eat);
-	sem_post(gl->sem->forks);
-	sem_post(gl->sem->forks);
+	if (sem_post(gl->sem->forks) == -1)
+		write(1, "Error sem_post\n", 15);
+	if (sem_post(gl->sem->forks) == -1)
+		write(1, "Error sem_post\n", 15);
 	return (1);
 }
 

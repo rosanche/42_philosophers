@@ -1,5 +1,5 @@
-#ifndef PHILO_ONE_H
-# define PHILO_ONE_H
+#ifndef PHILO_TWO_H
+# define PHILO_TWO_H
 
 #include <pthread.h>
 #include <fcntl.h>
@@ -23,6 +23,7 @@ typedef struct s_to {
 
 typedef struct s_sem {
     sem_t *forks;
+    sem_t *die_eat;
 }               t_sem;
 
 typedef struct s_philo {
