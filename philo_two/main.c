@@ -1,8 +1,9 @@
-#include "philo_one.h"
+#include "philo_two.h"
 
 void    free_gl(t_global *gl)
 {
     sem_close(gl->sem->forks);
+    sem_close(gl->sem->die_eat);
     free(gl->philos);
     free(gl->times);
     free(gl->sem);

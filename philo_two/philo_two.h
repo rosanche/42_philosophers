@@ -33,6 +33,7 @@ typedef struct s_philo {
     unsigned long last_eat;
     pthread_t   live;
     pthread_t   check;
+    // sem_t *die_eat;
 }               t_philo;
 
 typedef struct s_global {

@@ -1,4 +1,4 @@
-#include "philo_one.h"
+#include "philo_two.h"
 
 t_philo *init_philos(int nb_philos)
 {
@@ -18,6 +18,8 @@ t_philo *init_philos(int nb_philos)
         philos[i].nb_eat = 0;
         philos[i].start = get_time();
         philos[i].last_eat = get_time();
+        // if (!(philos[i].die_eat = sem_open("die_eat", O_CREAT, 0666, 1)))
+        //     return (NULL);
         i++;
     }
     return (philos);
@@ -45,13 +47,13 @@ t_sem       *init_sem(int nb_philos)
 
     i = -1;
     sem_unlink("forks");
+    sem_unlink("die_eat");
     if (!(sem = (t_sem *)malloc(sizeof(t_sem))))
         return (NULL);
-    // if (!(sem->forks = (sem_t *)malloc(sizeof(sem_t))))
-    //     return (NULL);
     if (!(sem->forks = sem_open("forks", O_CREAT, 0666, nb_philos)))
         return (NULL);
-    printf("ph: %d\n", nb_philos);
+    if (!(sem->die_eat = sem_open("die_eat", O_CREAT, 0666, nb_philos)))
+        return (NULL);
     return (sem);
 }
 

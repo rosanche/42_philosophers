@@ -1,4 +1,4 @@
-#include "philo_one.h"
+#include "philo_two.h"
 
 static void				ft_sleeping(int n)
 {
@@ -26,9 +26,13 @@ int     try_fork(t_philo *philo)
 	if(sem_wait(gl->sem->forks) == -1)
 		write(1, "Error sem_wait\n", 15);	
 	print_state(philo, TAKE_FORK);
+	if(sem_wait(gl->sem->die_eat) == -1)
+		write(1, "Error sem_wait\n", 15);
 	philo->last_eat = get_time();
 	print_state(philo, EATING);
 	ft_sleeping(gl->times->t_to_eat);
+	if(sem_post(gl->sem->die_eat) == -1)
+		write(1, "Error sem_post\n", 15);
 	if (sem_post(gl->sem->forks) == -1)
 		write(1, "Error sem_post\n", 15);
 	if (sem_post(gl->sem->forks) == -1)
@@ -65,13 +69,21 @@ void	*check(void *args)
 	philo = (t_philo*)args;
 	while (42)
 	{
+		// if(sem_wait(philo->die_eat) == -1)
+		// 	write(1, "Error sem_wait\n", 15);
 		if (get_time() - philo->last_eat > gl->times->t_to_die && gl->alive)
 		{
+			if(sem_wait(gl->sem->die_eat) == -1)
+			write(1, "Error sem_wait\n", 15);
 			gl->alive= 0;
 			print_state(philo, DIED);
+			if(sem_post(gl->sem->die_eat) == -1)
+			write(1, "Error sem_post\n", 15);
 			free_gl(gl);
 			break ;
 		}
+		// if(sem_post(philo->die_eat) == -1)
+		// 	write(1, "Error sem_post\n", 15);
 		ft_sleeping(5);
 	}
 	return (NULL);
