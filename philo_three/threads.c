@@ -1,4 +1,4 @@
-#include "philo_two.h"
+#include "philo_three.h"
 
 static void				ft_sleeping(int n)
 {
@@ -47,21 +47,19 @@ void    *live(void *args)
 
     gl = get_gl();
 	philo = (t_philo*)args;
-	if (pthread_create(&philo->check, NULL, check, &philo))
-		return (0);
+	if (pthread_create(&philo->check, NULL, check, philo))
+		exit(0);
 	if (pthread_detach(philo->check))
-		return (0);
+		exit(0);
     while (42)
     {
         print_state(philo, THINKING);
 		try_fork(philo);
 		if (gl->times->nb_eat && ++philo->nb_eat == gl->times->nb_eat)
-			break ;
+			exit(1);
 		print_state(philo, SLEEPING);
 		ft_sleeping(gl->times->t_to_sleep);
     }
-	gl->nb_philo--;
-	return (NULL);
 }
 
 void	*check(void *args)
@@ -73,18 +71,20 @@ void	*check(void *args)
 	philo = (t_philo*)args;
 	while (42)
 	{
+		// if(sem_wait(gl->sem->die_eat) == -1)
+		// 	write(1, "Error sem_wait\n", 15);
 		if (get_time() - philo->last_eat > gl->times->t_to_die && gl->alive)
 		{
 			if(sem_wait(gl->sem->die_eat) == -1)
 				write(1, "Error sem_wait\n", 15);
-			gl->alive= 0;
+			gl->alive = 0;
 			print_state(philo, DIED);
 			if(sem_post(gl->sem->die_eat) == -1)
 				write(1, "Error sem_post\n", 15);
-			free_gl(gl);
-			break ;
+			exit(2);
 		}
+		// if(sem_post(gl->sem->die_eat) == -1)
+		// 	write(1, "Error sem_post\n", 15);
 		ft_sleeping(5);
 	}
-	return (NULL);
 }

@@ -1,4 +1,4 @@
-#include "philo_two.h"
+#include "philo_three.h"
 
 unsigned long		get_time(void)
 {

@@ -1,5 +1,5 @@
-#ifndef PHILO_TWO_H
-# define PHILO_TWO_H
+#ifndef philo_three_H
+# define philo_three_H
 
 #include <pthread.h>
 #include <fcntl.h>
@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <semaphore.h>
+#include <signal.h>
+#include <sys/types.h>
 
 typedef enum {
 	THINKING, EATING, HUNGRY, SLEEPING, DIED, TAKE_FORK

@@ -1,4 +1,4 @@
-#include "philo_two.h"
+#include "philo_three.h"
 
 t_philo *init_philos(int nb_philos)
 {
@@ -72,5 +72,3 @@ t_global    *init_global(char **av)
     global->sem = init_sem(global->times->nb_ph);
     return (global);
 }
-
-//proteger stdout avec semex 

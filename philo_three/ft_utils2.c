@@ -1,4 +1,4 @@
-#include "philo_two.h"
+#include "philo_three.h"
 
 char		*ft_strdup(const char *s1)
 {

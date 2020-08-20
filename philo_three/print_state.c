@@ -1,4 +1,4 @@
-#include "philo_two.h"
+#include "philo_three.h"
 
 char       *get_status(t_state etat)
 {

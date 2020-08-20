@@ -1,8 +1,8 @@
-NAME=philo_two
+NAME=philo_three
 
-CC=gcc -Wall -Wextra -Werror $(PHILO_TWO_H) -g3
+CC=gcc -Wall -Wextra -Werror $(philo_three_H) -g3
 
-PHILO_TWO_H = -I philo_two.h
+philo_three_H = -I philo_three.h
 
 RM=rm -f
 
