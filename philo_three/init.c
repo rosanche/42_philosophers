@@ -50,7 +50,7 @@ t_sem       *init_sem(int nb_philos)
         return (NULL);
     if (!(sem->forks = sem_open("forks", O_CREAT, 0666, nb_philos)))
         return (NULL);
-    if (!(sem->die_eat = sem_open("die_eat", O_CREAT, 0666, nb_philos)))
+    if (!(sem->die_eat = sem_open("die_eat", O_CREAT, 0666, 1)))
         return (NULL);
     return (sem);
 }

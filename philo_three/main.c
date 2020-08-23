@@ -40,7 +40,6 @@ int watch()
 		if (WIFEXITED(status) && (status == 512 || status == 768))
 		{
             printf("CACACA: %d\n", gl->alive);
-            gl->alive = 0;
             // if(sem_wait(gl->sem->die_eat) == -1)
 			// 	write(1, "Error sem_wait\n", 15);
 			while (i < gl->times->nb_ph)
@@ -79,7 +78,7 @@ int main(int ac, char **av)
         return (0);
     if (!(ret = watch()))
         return (0);
-    printf("MERDEEE: %d\n", global->alive);
+    // printf("MERDEEE: %d\n", global->alive);
     free_gl(global);
     if (ret == 2)
         return (0);
